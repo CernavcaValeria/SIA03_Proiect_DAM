@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\Account.cs" />
+    <Compile Include="Class\Leader.cs" />
+    <Compile Include="Class\Project.cs" />
+    <Compile Include="Class\Task.cs" />
+    <Compile Include="Class\Team.cs" />
+    <Compile Include="Class\User.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
