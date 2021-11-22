@@ -30,7 +30,7 @@ namespace DAMS_Proiect
         } = new List<Project>();
 
 
-        public Departamanet Role
+        public Departamanet UserDepartamanet
         {
             get;
             set;
@@ -66,8 +66,21 @@ namespace DAMS_Proiect
             DBAdmin,
             HR,
             Finances,
-            Accounting
+            Accounting,
+            Director
         }
+
+        public int TeamId
+        {
+            get;
+            set;
+        } = 0;
+
+        public int RoleId
+        {
+            get;
+            set;
+        } = 0;
 
         public User(Account personalAccount, int id, string name, List<Project> projects, Departamanet role, string addres, string phoneNumber, string email)
         {
@@ -75,7 +88,7 @@ namespace DAMS_Proiect
             Id = id;
             Name = name;
             Projects = projects;
-            Role = role;
+            UserDepartamanet = role;
             Addres = addres;
             PhoneNumber = phoneNumber;
             Email = email;
@@ -90,7 +103,7 @@ namespace DAMS_Proiect
                    Id == user.Id &&
                    Name == user.Name &&
                    EqualityComparer<List<Project>>.Default.Equals(Projects, user.Projects) &&
-                   Role == user.Role &&
+                   UserDepartamanet == user.UserDepartamanet &&
                    Addres == user.Addres &&
                    PhoneNumber == user.PhoneNumber &&
                    Email == user.Email;
@@ -103,11 +116,25 @@ namespace DAMS_Proiect
             hashCode = hashCode * -1521134295 + Id.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<List<Project>>.Default.GetHashCode(Projects);
-            hashCode = hashCode * -1521134295 + Role.GetHashCode();
+            hashCode = hashCode * -1521134295 + UserDepartamanet.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Addres);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PhoneNumber);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Email);
             return hashCode;
+        }
+
+        public static Departamanet GetDepartamanetByName(string d)
+        {
+            if (d.Equals("Marketing")) return Departamanet.Marketing;
+            if (d.Equals("Design")) return Departamanet.Design;
+            if (d.Equals("FrontEnd")) return Departamanet.FrontEnd;
+            if (d.Equals("BackEnd")) return Departamanet.BackEnd;
+            if (d.Equals("BDAdmin")) return Departamanet.DBAdmin;
+            if (d.Equals("Accounting")) return Departamanet.Accounting;
+            if (d.Equals("Tester")) return Departamanet.Tester;
+            if (d.Equals("Security")) return Departamanet.Security;
+            if (d.Equals("Director")) return Departamanet.Director;
+            return Departamanet.Default;
         }
     }
 }

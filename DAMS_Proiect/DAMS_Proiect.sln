@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAMS_Proiect", "DAMS_Proiect\DAMS_Proiect.csproj", "{4BB81E92-E617-493A-B403-2B82847E8A28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAMS_Tests", "DAMS_Tests\DAMS_Tests.csproj", "{0EDAE69A-D822-441B-9079-A3990638BD57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4BB81E92-E617-493A-B403-2B82847E8A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BB81E92-E617-493A-B403-2B82847E8A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BB81E92-E617-493A-B403-2B82847E8A28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDAE69A-D822-441B-9079-A3990638BD57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDAE69A-D822-441B-9079-A3990638BD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDAE69A-D822-441B-9079-A3990638BD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EDAE69A-D822-441B-9079-A3990638BD57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

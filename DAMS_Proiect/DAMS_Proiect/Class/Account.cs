@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAMS_Proiect
 {
+    
     public class Account
     {
         public int UserId
@@ -14,7 +15,16 @@ namespace DAMS_Proiect
             set;
         }
 
-        private string UserPassword;
+        public string UserPassword
+        {
+            get;
+            set;
+        } = "";
+        public string UserRepeatPassword
+        {
+            get;
+            set;
+        } = "";
 
         public string UserName
         {

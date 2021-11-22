@@ -13,6 +13,7 @@ namespace DAMS_Proiect
     public class Project
     {
         public List<Task> tasksList;
+        public string xmlPath;
         public int Id;
         public User Ow
         {

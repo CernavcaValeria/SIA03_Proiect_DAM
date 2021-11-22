@@ -58,14 +58,22 @@ namespace DAMS_Proiect
             set;
         } = "Medium";
 
+        /*
+                [XmlArray("Resources"), XmlArrayItem("name", typeof(string))]
+                public List<String> ResourceNames
+                {
+                    get;
+                    set;
 
-        [XmlArray("Resources"), XmlArrayItem("name", typeof(string))]
-        public List<String> ResourceNames
+                } = new List<string>();
+        */
+
+        [XmlElement(ElementName = "Resource")]
+        public string Resource
         {
             get;
             set;
-
-        } = new List<string>();
+        } = "";
 
         public enum TaskMode
         {
@@ -96,6 +104,10 @@ namespace DAMS_Proiect
             {
                 Priority = str;
             }
+            else if (filedName.Equals("Resource"))
+            {
+                Resource = str;
+            }
         }
 
         public Task(int taskId, float val, string flag)
@@ -123,11 +135,7 @@ namespace DAMS_Proiect
         }
 
 
-        public Task(int taskId, List<string> resourceNames)
-        {
-            TaskId = taskId;
-            ResourceNames = resourceNames;
-        }
+
 
         public Task(int taskId)
         {
@@ -139,16 +147,17 @@ namespace DAMS_Proiect
             Console.WriteLine("\nTask ID={0} Information:\n\tName: {1}\n\tStart: {2}\n\tFinish: {3}\n\tDuration: {4}\n\tComplete%: {5}",
                     TaskId, Name, Start, Finish, Duration, Complete);
 
-
-            if (ResourceNames.Count > 0)
-            {
-                Console.WriteLine("\tResource Names:");
-                foreach (string resource in ResourceNames)
-                {
-                    Console.WriteLine("\t\t{0}", resource);
-                }
-            }
+            /*
+                        if (ResourceNames.Count > 0)
+                        {
+                            Console.WriteLine("\tResource Names:");
+                            foreach (string resource in ResourceNames)
+                            {
+                                Console.WriteLine("\t\t{0}", resource);
+                            }
+                        }*/
             Console.WriteLine("___________________________________");
+
         }
     }
 }

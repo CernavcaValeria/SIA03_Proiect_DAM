@@ -8,6 +8,7 @@ namespace DAMS_Proiect
 {
     static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,6 +18,7 @@ namespace DAMS_Proiect
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+            Console.WriteLine("ceva");
         }
     }
 }
