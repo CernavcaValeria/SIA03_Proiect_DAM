@@ -20,3 +20,7 @@ D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\DAMS_Proiect.pdb
 D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\DAMS_Proiect.exe.config
 D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\Syncfusion.Pdf.Portable.xml
 D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\Syncfusion.Compression.Portable.xml
+D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\DAMS_Tests.dll.config
+D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\System.Data.SqlClient.dll
+D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\Syncfusion.Licensing.dll
+D:\DAMS\DAMS_Proiect\DAMS_Tests\bin\Debug\System.Data.SqlClient.xml
