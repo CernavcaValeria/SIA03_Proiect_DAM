@@ -6,11 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DAMS_Proiect.Utilities
+namespace DAMS_Proiect
 {
-    public static class CSVClass
+    public class CSV_Serializer : ISerializationStrategy
     {
-        public static bool ToCSV(this DataGridView dtDataTable, string strFilePath)
+        public override string SerializeProjectInstance(DataGridView dtDataTable, string strFilePath)
+        {
+            if (dtDataTable==null) return "csv";
+            ToCSV(dtDataTable, strFilePath);
+            return "csv";
+        }
+
+        public CSV_Serializer() { }
+
+        public  bool ToCSV( DataGridView dtDataTable, string strFilePath)
         {
             try
             {
@@ -68,5 +77,6 @@ namespace DAMS_Proiect.Utilities
                 return false;
             }
         }
+
     }
 }

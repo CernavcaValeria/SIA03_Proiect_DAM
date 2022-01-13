@@ -5,11 +5,21 @@ using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using System.IO;
 using Syncfusion.Drawing;
+using System.Windows.Forms;
 
 namespace DAMS_Proiect
 {
-    class PDFClass
+    public class PDF_Serializer : ISerializationStrategy
     {
+        public override string SerializeProjectInstance(DataGridView dtDataTable, string strFilePath)
+        {
+            if (dtDataTable == null) return "pdf";
+            CreatePdfFile(Entity.project, strFilePath);
+            return "pdf";
+        }
+
+        public PDF_Serializer() { }
+
         public void CreatePdfFile(Project currentProject,string path)
         { 
             PdfDocument document = new PdfDocument();
