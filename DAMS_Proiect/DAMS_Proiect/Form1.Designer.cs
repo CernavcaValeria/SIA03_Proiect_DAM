@@ -90,6 +90,8 @@ namespace DAMS_Proiect
             this.pDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tXTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.totalDurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deadlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +121,7 @@ namespace DAMS_Proiect
             this.accountToolStripMenuItem});
             this.Menu.Location = new System.Drawing.Point(0, 0);
             this.Menu.Name = "Menu";
-            this.Menu.Size = new System.Drawing.Size(1264, 33);
+            this.Menu.Size = new System.Drawing.Size(1274, 33);
             this.Menu.TabIndex = 0;
             this.Menu.Text = "menuStrip1";
             // 
@@ -142,17 +144,17 @@ namespace DAMS_Proiect
             // separator1
             // 
             this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(217, 6);
+            this.separator1.Size = new System.Drawing.Size(210, 6);
             // 
             // separator2
             // 
             this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(217, 6);
+            this.separator2.Size = new System.Drawing.Size(210, 6);
             // 
             // separator3
             // 
             this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(217, 6);
+            this.separator3.Size = new System.Drawing.Size(210, 6);
             // 
             // editToolStripMenuItem
             // 
@@ -170,7 +172,9 @@ namespace DAMS_Proiect
             this.reportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pDFToolStripMenuItem,
             this.xMLToolStripMenuItem,
-            this.cSVToolStripMenuItem});
+            this.cSVToolStripMenuItem,
+            this.tXTToolStripMenuItem,
+            this.pNGToolStripMenuItem});
             this.reportToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(81, 29);
@@ -230,7 +234,7 @@ namespace DAMS_Proiect
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 25;
             this.dataGridView1.RowTemplate.Height = 29;
-            this.dataGridView1.Size = new System.Drawing.Size(1266, 560);
+            this.dataGridView1.Size = new System.Drawing.Size(1274, 560);
             this.dataGridView1.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn1
@@ -317,8 +321,8 @@ namespace DAMS_Proiect
             this.initItem.Image = ((System.Drawing.Image)(resources.GetObject("initItem.Image")));
             this.initItem.Name = "initItem";
             this.initItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.initItem.Size = new System.Drawing.Size(220, 30);
-            this.initItem.Text = "Refresh";
+            this.initItem.Size = new System.Drawing.Size(213, 30);
+            this.initItem.Text = "Clear";
             // 
             // openItem
             // 
@@ -328,7 +332,7 @@ namespace DAMS_Proiect
             this.openItem.Image = ((System.Drawing.Image)(resources.GetObject("openItem.Image")));
             this.openItem.Name = "openItem";
             this.openItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openItem.Size = new System.Drawing.Size(220, 30);
+            this.openItem.Size = new System.Drawing.Size(213, 30);
             this.openItem.Text = "Open";
             // 
             // fromXMLToolStripMenuItem
@@ -352,7 +356,7 @@ namespace DAMS_Proiect
             this.saveItem.Image = ((System.Drawing.Image)(resources.GetObject("saveItem.Image")));
             this.saveItem.Name = "saveItem";
             this.saveItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveItem.Size = new System.Drawing.Size(220, 30);
+            this.saveItem.Size = new System.Drawing.Size(213, 30);
             this.saveItem.Text = "Save";
             this.saveItem.Click += new System.EventHandler(this.Menu_File_Save);
             // 
@@ -364,7 +368,7 @@ namespace DAMS_Proiect
             this.cSVFileToolStripMenuItem});
             this.saveAsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveAsToolStripMenuItem.Image")));
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(220, 30);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(213, 30);
             this.saveAsToolStripMenuItem.Text = "Save As";
             // 
             // newProjectToolStripMenuItem
@@ -397,7 +401,7 @@ namespace DAMS_Proiect
             this.exitItem.Image = ((System.Drawing.Image)(resources.GetObject("exitItem.Image")));
             this.exitItem.Name = "exitItem";
             this.exitItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.exitItem.Size = new System.Drawing.Size(220, 30);
+            this.exitItem.Size = new System.Drawing.Size(213, 30);
             this.exitItem.Text = "Exit";
             // 
             // sortAscToolStripMenuItem
@@ -655,6 +659,22 @@ namespace DAMS_Proiect
             this.cSVToolStripMenuItem.Text = "CSV";
             this.cSVToolStripMenuItem.Click += new System.EventHandler(this.Menu_Report_CSV);
             // 
+            // tXTToolStripMenuItem
+            // 
+            this.tXTToolStripMenuItem.Image = global::DAMS_Proiect.Properties.Resources.txt;
+            this.tXTToolStripMenuItem.Name = "tXTToolStripMenuItem";
+            this.tXTToolStripMenuItem.Size = new System.Drawing.Size(224, 30);
+            this.tXTToolStripMenuItem.Text = "TXT";
+            this.tXTToolStripMenuItem.Click += new System.EventHandler(this.Menu_Report_TXT);
+            // 
+            // pNGToolStripMenuItem
+            // 
+            this.pNGToolStripMenuItem.Image = global::DAMS_Proiect.Properties.Resources.pnh1;
+            this.pNGToolStripMenuItem.Name = "pNGToolStripMenuItem";
+            this.pNGToolStripMenuItem.Size = new System.Drawing.Size(224, 30);
+            this.pNGToolStripMenuItem.Text = "PNG";
+            this.pNGToolStripMenuItem.Click += new System.EventHandler(this.Menu_Report_PNG);
+            // 
             // totalDurationToolStripMenuItem
             // 
             this.totalDurationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("totalDurationToolStripMenuItem.Image")));
@@ -766,7 +786,7 @@ namespace DAMS_Proiect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 598);
+            this.ClientSize = new System.Drawing.Size(1274, 598);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Menu);
@@ -856,6 +876,8 @@ namespace DAMS_Proiect
         private System.Windows.Forms.ToolStripMenuItem registerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tXTToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pNGToolStripMenuItem;
     }
 }
 

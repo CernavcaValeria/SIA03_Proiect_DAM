@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
-using DAMS_Proiect.Utilities;
 //using static DAMS_Proiect.Entity;
 
 namespace DAMS_Proiect
@@ -37,6 +36,7 @@ namespace DAMS_Proiect
             InitializeComponent();
             FillGridWithRows();
             dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[6].ReadOnly = false;
             dataGridView1.Columns[7].ReadOnly = true;
 
             this.logInToolStripMenuItem.Text = (Entity.Acces.IsUserLoggedIn ? "Log out" : "Log In");
@@ -93,15 +93,51 @@ namespace DAMS_Proiect
                     }
                     else
                     {
+                        currentComboboxColumn = CurentCoumnCombo.priority;
                         rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                         comboBox1.Location = new Point(rectangle.X, rectangle.Y + rectangle.Height + 5);
-                        comboBox1.MinimumSize = new Size(rectangle.Width, rectangle.Height);
-
+                        comboBox1.MinimumSize = new Size(145, rectangle.Height+20);
+                        comboBox1.Text = "";
                         comboBox1.Name = "comboBox1";
-                        comboBox1.Visible = true;
                         comboBox1.ForeColor = Color.Black;
                         comboBox1.DropDownHeight = 3 * rectangle.Height;
                         comboBox1.DropDownWidth = rectangle.Width;
+                        comboBox1.Items.Clear();
+                        this.comboBox1.Items.AddRange(new object[] {
+                            "High",
+                            "Medium",
+                            "Low"});
+                        comboBox1.Visible = true;
+                    }
+                }
+                else if(e.ColumnIndex ==7 && dataGridView1.Columns[7].ReadOnly == false)
+                {
+                    if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn1"].Value == null)
+                    {
+                        if (!(Entity.Acces.IsLeaderCurrentLoggedUser))
+                            dataGridView1.Columns[7].ReadOnly = true;
+                    }
+                    else
+                    {
+                        currentComboboxColumn = CurentCoumnCombo.resource;
+                        rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                        comboBox1.Location = new Point(rectangle.X, rectangle.Y + rectangle.Height + 5);
+                        comboBox1.MinimumSize = new Size(200, rectangle.Height + 20);
+                        comboBox1.Text = "";
+                        comboBox1.Name = "comboBox1";
+                        comboBox1.ForeColor = Color.Black;
+                        comboBox1.DropDownHeight = 3 * rectangle.Height;
+                        comboBox1.DropDownWidth = rectangle.Width;
+                        comboBox1.Items.Clear();
+                        if (Entity.Acces.IsLeaderCurrentLoggedUser && Entity.Acces.IsUserLoggedIn)
+                        {
+                            comboBox1.Items.AddRange(new GetData().GetTeamMembersOfCurrentLeader());
+                        }
+                        else
+                        {
+                            comboBox1.Items.AddRange(new string[1] { "user1" });
+                        }
+                        comboBox1.Visible = true;
                     }
                 }
             }
@@ -109,6 +145,13 @@ namespace DAMS_Proiect
             {
                 MessageBox.Show(exception.ToString());
             }
+        }
+
+        public static CurentCoumnCombo currentComboboxColumn = CurentCoumnCombo.priority;
+        public enum CurentCoumnCombo
+        {
+            priority,
+            resource
         }
 
 
@@ -146,6 +189,7 @@ namespace DAMS_Proiect
             }
         }
 
+
         private void InsertPriority(DataGridViewCellEventArgs e)
         {
             try
@@ -156,30 +200,46 @@ namespace DAMS_Proiect
             {
                 MessageBox.Show(exception.ToString());
             }
+            DataGridView1_Click(dataGridView1, new EventArgs());
         }
+
+        private void ComboPrioritySelectedValue(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells["dataGridViewTextBoxColumn1"].Value != null)
+            {
+                if(currentComboboxColumn.Equals(CurentCoumnCombo.priority))
+                    Entity.project.tasksList.Find(task => task.TaskId == dataGridView1.CurrentCell.RowIndex + 1).Priority = comboBox1.Text.ToString();
+                else
+                    Entity.project.tasksList.Find(task => task.TaskId == dataGridView1.CurrentCell.RowIndex + 1).Resource = comboBox1.Text.ToString();
+                dataGridView1.CurrentCell.Value = comboBox1.Text.ToString();
+            }
+            dataGridView1.CurrentCell = dataGridView1.Rows[currentCell.RowIndex].Cells[1];
+        }
+
 
         private void InsertResource(DataGridViewCellEventArgs e)
         {
-            try
-            {
-                if (!Entity.Acces.IsFillingFromDataBase)
+                try
                 {
-                    string resourceValue = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                    if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn7"].Value == null)
+                    if (!Entity.Acces.IsFillingFromDataBase)
                     {
-                        Entity.project.tasksList.Add(new Task(e.RowIndex + 1, resourceValue, "Resource"));
-                        GenerateDefaultValues(e);
-                    }
-                    else//Task already exists,so just change the resource value
-                    {
-                        Entity.project.tasksList.Find(task => task.TaskId == e.RowIndex + 1).Resource = resourceValue;
-                    }
+                        string resourceValue = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                        if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn7"].Value == null)
+                        {
+                            Entity.project.tasksList.Add(new Task(e.RowIndex + 1, resourceValue, "Resource"));
+                            GenerateDefaultValues(e);
+                        }
+                        else//Task already exists,so just change the resource value
+                        {
+                            Entity.project.tasksList.Find(task => task.TaskId == e.RowIndex + 1).Resource = resourceValue;
+                        }
+                    } 
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.ToString());
-            }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.ToString());
+                }
+            DataGridView1_Click(dataGridView1, new EventArgs());
         }
 
 
@@ -370,57 +430,6 @@ namespace DAMS_Proiect
             }
         }
 
-
-        /*
-                private void InsertDurationValue(DataGridViewCellEventArgs e)
-                {
-                    if (!IsFillingFromDataBase)
-                    {
-                        try
-                        {
-                            if (int.TryParse(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), out int durationValue))
-                            {
-                                if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn1"].Value == null)//check ID existence
-                                {
-                                    oldDurationsCollection.Add(e.RowIndex + 1, durationValue);
-                                    Entity.project.tasksList.Add(new Task(e.RowIndex + 1, durationValue, "d"));
-                                    GenerateDefaultValues(e);
-                                }
-                                else//Task already exists,so just change the duration value
-                                {
-                                    oldDurationsCollection[e.RowIndex + 1] = durationValue;
-                                    Entity.project.tasksList.Find(task => task.TaskId == e.RowIndex + 1).Duration = durationValue;
-                                }
-                            }
-                            else
-                            {
-                                if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn1"].Value == null)//check ID existence
-                                {
-                                    dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn3"].Value = 1;
-                                    Entity.project.tasksList.Add(new Task(e.RowIndex + 1, 1, "d"));
-                                    GenerateDefaultValues(e);
-                                }
-                                else//Task already exists; because an invalid value was entered,sets the duration to previous value
-                                {
-                                    bool oldDurationExists = oldDurationsCollection.ContainsKey(e.RowIndex + 1);
-                                    MessageBox.Show("Only numbers are allowed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                    dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn3"].Value = oldDurationExists ?
-                                        oldDurationsCollection[e.RowIndex + 1] : 1;
-
-                                    Entity.project.tasksList.Find(task => task.TaskId == e.RowIndex + 1).Duration = oldDurationExists ?
-                                        oldDurationsCollection[e.RowIndex + 1] : 1;
-                                }
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            MessageBox.Show(exception.ToString());
-                        }
-                    }
-                }
-                */
-
         private void InsertDateValue(DataGridViewCellEventArgs e)
         {
             if (!Entity.Acces.IsFillingFromDataBase)
@@ -509,8 +518,9 @@ namespace DAMS_Proiect
 
                 if (Path.GetExtension(openFileDialog.FileName).Equals(".xml"))
                 {
+                    IDerializationStrategy XMLDeserializer = new XML_Deserializer();
+                    Entity.project =  XMLDeserializer.DeserializeProjectInstance(openFileDialog.FileName);
                     Entity.project.xmlPath = openFileDialog.FileName;
-                    Entity.project.DeserializeTasks();
                     FillGridWithTaskListContent();
                 }
                 else
@@ -520,15 +530,22 @@ namespace DAMS_Proiect
         public static Action OpenProjectAfterSelectFromList;
         private void Menu_File_Open_fromDB(object sender, EventArgs e)
         {
-            var accesToProjectsDataBase = new AccesForms(this);
+            var accesToProjectsDataBase = new AccesForms(this, dataGridView1);
             if (Entity.Acces.IsUserLoggedIn)
             {
-                accesToProjectsDataBase.DisplayAndProposeForSelectProjectfromDB(dataGridView1);
                 dataGridView1.Rows.Clear();
+                FillGridWithRows();
+                accesToProjectsDataBase.DisplayAndProposeForSelectProjectfromDB(dataGridView1);
                 FillGridWithTaskListContent();
             }
             else//redirect to register-login
+            {
                 accesToProjectsDataBase.CreateAccesForm();
+                if (Entity.Acces.IsUserLoggedIn && Entity.Acces.IsLeaderCurrentLoggedUser)
+                    dataGridView1.Columns[7].ReadOnly = false;
+                else
+                    dataGridView1.Columns[7].ReadOnly = true;
+            }
         }
 
         private void Menu_Report_PDF(object sender, EventArgs e)
@@ -543,12 +560,52 @@ namespace DAMS_Proiect
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string pdfFilePath = saveFileDialog.FileName;
-                    PDFClass pdfHelper = new PDFClass();
-                    pdfHelper.CreatePdfFile(Entity.project, pdfFilePath);
+                    ISerializationStrategy pdfHelper = new PDF_Serializer();
+                    pdfHelper.SerializeProjectInstance(dataGridView1, pdfFilePath);
                     MessageBox.Show("File successfully converted to PDF!", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else MessageBox.Show("Fail! The tasks list is empty", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void Menu_Report_TXT(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName,
+                Filter = "TXT Files (*.txt)|*.txt"
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                string TXTFilePath = saveFileDialog.FileName;
+                ISerializationStrategy TXTSerializer = new TXT_Serializer();
+                TXTSerializer.SerializeProjectInstance(dataGridView1, TXTFilePath);
+                MessageBox.Show("Data successfully converted to Text file!", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void Menu_Report_PNG (object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName,
+                Filter = "PNG Files (*.png)|*.png"
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string pngFilePath = saveFileDialog.FileName;
+
+                int height = dataGridView1.Height;
+                dataGridView1.Height = Entity.project.tasksList.Count * dataGridView1.RowTemplate.Height;
+
+                Bitmap bitmap = new Bitmap(this.dataGridView1.Width, this.dataGridView1.Height);
+                dataGridView1.DrawToBitmap(bitmap, new Rectangle(0, 0, this.dataGridView1.Width, this.dataGridView1.Height));
+
+                dataGridView1.Height = height;
+                bitmap.Save(pngFilePath);
+                MessageBox.Show("Grid successfully converted to pdf!", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void Menu_Report_CSV(object sender, EventArgs e)
@@ -568,8 +625,9 @@ namespace DAMS_Proiect
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     Entity.project.xmlPath = saveFileDialog.FileName;
-                    string message = Entity.project.SerializeTasks();
-                    MessageBox.Show(message, "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ISerializationStrategy XMLSerializer = new XML_Serializer();
+                    XMLSerializer.SerializeProjectInstance(dataGridView1, saveFileDialog.FileName);
+                    MessageBox.Show("XML succesfully serialization", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else MessageBox.Show("Fail! The tasks list is empty", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -590,7 +648,7 @@ namespace DAMS_Proiect
                     dataGridView1.Rows[task.TaskId - 1].Cells[5].Value = task.Finish;
                     dataGridView1.Rows[task.TaskId - 1].Cells[6].Value = task.Priority;
                     dataGridView1.Rows[task.TaskId - 1].Cells[7].Value = task.Resource;
-                    // dataGridView1.Rows[task.TaskId - 1].Cells[7].Value = string.Join(", ", task.ResourceNames.ToList());
+                   // dataGridView1.Rows[task.TaskId - 1].Cells[7].Value = string.Join(", ", task.ResourceNames.ToList());
                 }
             }
             catch (Exception exception)
@@ -632,7 +690,7 @@ namespace DAMS_Proiect
                 dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn7"].Value = "Medium";
 
             if (dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn8"].Value == null)
-                dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn8"].Value = "---";
+                dataGridView1.Rows[e.RowIndex].Cells["dataGridViewTextBoxColumn8"].Value = "";
 
             switch (dataGridView1.Columns[e.ColumnIndex].Name)
             {
@@ -654,14 +712,6 @@ namespace DAMS_Proiect
                 dataGridView1.Rows.Add();
         }
 
-        private void ComboPrioritySelectedValue(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells["dataGridViewTextBoxColumn1"].Value != null)
-            {
-                Entity.project.tasksList.Find(task => task.TaskId == dataGridView1.CurrentCell.RowIndex + 1).Priority = comboBox1.Text.ToString();
-                dataGridView1.CurrentCell.Value = comboBox1.Text.ToString();
-            }
-        }
         private void DateTimePicker_TextChange(object sender, EventArgs e)
         {
             dataGridView1.CurrentCell.Value = dateTimePicker.Text.ToString();
@@ -670,6 +720,7 @@ namespace DAMS_Proiect
         private void DataGridView1_Click(object sender, EventArgs e)
         {
             dateTimePicker.Visible = false;
+            comboBox1.Visible = false;
         }
 
 
@@ -1232,8 +1283,9 @@ namespace DAMS_Proiect
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Entity.project.xmlPath = saveFileDialog.FileName;
-                string message = Entity.project.SerializeTasks();
-                MessageBox.Show(message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ISerializationStrategy XMLSerializer = new XML_Serializer();
+                XMLSerializer.SerializeProjectInstance(dataGridView1, saveFileDialog.FileName);
+                MessageBox.Show("XML succesfully serialization", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1249,8 +1301,9 @@ namespace DAMS_Proiect
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string CSVFilePath = saveFileDialog.FileName;
-                    if (this.dataGridView1.ToCSV(CSVFilePath))
-                        MessageBox.Show("File successfully converted to CSV!", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ISerializationStrategy csv = new CSV_Serializer();
+                    csv.SerializeProjectInstance(dataGridView1, CSVFilePath);
+                    MessageBox.Show("File successfully converted to CSV!", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else MessageBox.Show("Fail! The tasks list is empty", "Reporting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1268,37 +1321,50 @@ namespace DAMS_Proiect
                 DialogResult result = MessageBox.Show("Are you sure you want to log out?", "Log out", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
+                    Entity.Acces.IsLeaderCurrentLoggedUser = false;
+                    Entity.Acces.IsFillingFromDataBase = false;
                     Entity.Acces.IsUserLoggedIn = false;
                     Entity.user = null;
                     Entity.account = null;
+                    Entity.roleId = 0;
                     logInToolStripMenuItem.Text = "Log In";
+                    dataGridView1.Columns[7].ReadOnly = false;
                 }
             }
             else
             {
-                var accesToProjectsDataBase = new AccesForms(this);
+                var accesToProjectsDataBase = new AccesForms(this,  dataGridView1);
                 accesToProjectsDataBase.CreateAccesForm();
                 logInToolStripMenuItem.Text = "Log out";
+                if (Entity.Acces.IsUserLoggedIn && Entity.Acces.IsLeaderCurrentLoggedUser)
+                    dataGridView1.Columns[7].ReadOnly = false;
+                else
+                    dataGridView1.Columns[7].ReadOnly = true;
             }
         }
 
         private void Menu_Account_Regiser(object sender, EventArgs e)
         {
-            var accesToProjectsDataBase = new AccesForms(this);
+            var accesToProjectsDataBase = new AccesForms(this, dataGridView1);
             accesToProjectsDataBase.CreateAccesForm();
+            if (Entity.Acces.IsUserLoggedIn && Entity.Acces.IsLeaderCurrentLoggedUser)
+                dataGridView1.Columns[7].ReadOnly = false;
+            else
+                dataGridView1.Columns[7].ReadOnly = true;
         }
 
         private void Menu_Account_Info(object sender, EventArgs e)
         {
             if (Entity.Acces.IsUserLoggedIn && Entity.user != null && Entity.account != null)
             {
-                var userInfoForm = new AccesForms(this);
+                var userInfoForm = new AccesForms(this, dataGridView1);
                 userInfoForm.CreateAccountInfoDialog();
             }
             else
                 MessageBox.Show("There is no user logged in!", "Info account error alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         }
+
     } 
 }
 
