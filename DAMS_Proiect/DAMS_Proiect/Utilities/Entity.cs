@@ -11,11 +11,14 @@ namespace DAMS_Proiect
         public static User user;
         public static Project project;
         public static Account account;
+        public const string LeaderKey = "qwe123";
+        public static int roleId = 0;
 
         public static class Acces
         {
             public static bool IsUserLoggedIn = false;
             public static bool IsFillingFromDataBase = false;
+            public static bool IsLeaderCurrentLoggedUser = false;
         }
     }
 }
